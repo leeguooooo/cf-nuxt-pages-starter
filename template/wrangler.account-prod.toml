@@ -1,0 +1,12 @@
+name = "cf-nuxt-pages-kit"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "dist"
+
+[vars]
+CDN_BASE_URL = "https://cdn.example.com"
+RECORDING_JWT_SECRET = "prod-secret-change-me"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cf-nuxt-pages-db"
+database_id = "11111111-1111-1111-1111-111111111111"

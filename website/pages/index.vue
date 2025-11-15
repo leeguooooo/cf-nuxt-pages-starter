@@ -1,539 +1,459 @@
 <script setup lang="ts">
-type Metric = { label: string; value: string; helper: string }
-type Feature = { title: string; description: string; icon: string; highlight: string }
-type Integration = { name: string; description: string; icon: string; href: string; badge: string }
-type Post = { title: string; description: string; href: string; tag: string; date: string }
+type Locale = 'zh' | 'en' | 'ja'
 
-const heroLinks = [
-  {
-    label: '立即使用',
-    href: 'https://github.com/leeguooooo/cf-nuxt-pages-starter',
-    icon: 'i-lucide-rocket',
-  },
-  {
-    label: '查看教程',
-    to: '/tutorial',
-    color: 'gray',
-    variant: 'soft',
-    icon: 'i-lucide-graduation-cap',
-  },
+const locales: Array<{ code: Locale; label: string }> = [
+  { code: 'zh', label: '中文' },
+  { code: 'en', label: 'English' },
+  { code: 'ja', label: '日本語' },
 ]
 
-const metrics: Metric[] = [
-  { label: '部署耗时', value: '5 min', helper: 'Wrangler 脚本一键同步 preview / prod' },
-  { label: '示例 API', value: '9 个', helper: '封装 Pages Functions、D1、KV、R2 场景' },
-  { label: '内置脚本', value: '12 个', helper: '环境切换、日志跟踪、seed 数据' },
-]
+type Copy = {
+  tag: string
+  heroTitle: string
+  heroBody: string
+  ctaPrimary: string
+  ctaSecondary: string
+  ctaTutorial: string
+  stats: Array<{ label: string; value: string; desc: string }>
+  workflowTitle: string
+  workflowSubtitle: string
+  workflowActions: Array<{ title: string; code: string }>
+  workflowBullets: string[]
+  coreEyebrow: string
+  coreTitle: string
+  coreBody: string
+  coreList: string[]
+  modulesTitle: string
+  modules: Array<{ title: string; body: string }>
+}
 
-const features: Feature[] = [
-  {
-    title: 'Cloudflare 原生体验',
-    description: 'Pages、Workers、D1、KV 等产品被完整接入，脚本可切换多账号并自动注入环境变量。',
-    icon: 'i-lucide-cloud',
-    highlight: 'Cloudflare Stack',
+const messages: Record<Locale, Copy> = {
+  zh: {
+    tag: 'Cloudflare Nuxt Pages Kit',
+    heroTitle: '几分钟把 Nuxt 4 + Cloudflare Pages 推向线上',
+    heroBody:
+      '预设了多账号部署流、Pages Functions API、D1 数据库迁移与日志脚本，帮你把产品快速发布到 Cloudflare 边缘网络。本网站同样使用 Nuxt + @nuxt/ui 构建，效果即所得。',
+    ctaPrimary: '立即使用',
+    ctaSecondary: '查看文档',
+    ctaTutorial: '零服务器教程',
+    stats: [
+      { label: '部署耗时', value: '5 min', desc: 'Wrangler 脚本同步 preview / prod' },
+      { label: '示例 API', value: '9 个', desc: '封装 Pages Functions、D1、KV、R2 场景' },
+      { label: '内置脚本', value: '12 个', desc: '环境切换、日志追踪、seed 数据' },
+    ],
+    workflowTitle: 'Cloudflare Workflow',
+    workflowSubtitle: 'Preview, Staging, Production',
+    workflowActions: [
+      { title: '部署命令', code: 'pnpm deploy:test' },
+      { title: '日志追踪', code: 'pnpm logs:prod' },
+      { title: '切换账号', code: 'pnpm wrangler:config:prod' },
+    ],
+    workflowBullets: [
+      '完整的 Cloudflare Pages + Functions 模板',
+      'D1 schema、seed、clear SQL 脚本',
+      '官网 (website) 与业务模板 (template) 双结构',
+    ],
+    coreEyebrow: '核心能力',
+    coreTitle: '开箱即用的 Cloudflare × Nuxt 工程体系',
+    coreBody:
+      '沿用官方设计系统，快速组合同 Hero、Feature、Blog 等模块，减少自定义 CSS，保留暗色主题支持。',
+    coreList: [
+      '多语言 + 深色模式示例',
+      '部署 / 日志 / 账号切换脚本齐全',
+      '可扩展 Pages Functions、Cron Trigger、Queues',
+    ],
+    modulesTitle: '工程模块',
+    modules: [
+      { title: 'Nuxt Admin 模板', body: '含 Pinia、API mock、权限路由、D1 migrations 样例。' },
+      { title: '官网 + 博客', body: 'Marketing 站点 + /tutorial 博客，内置 i18n。' },
+      { title: 'Cloudflare DevOps', body: 'wrangler.account-*.toml 模板 + 多账号日志脚本。' },
+    ],
   },
-  {
-    title: 'Nuxt 4 最佳实践',
-    description: '采用服务端数据抓取、动态路由、Pinia 状态树与可复用布局，新项目直接复刻即可。',
-    icon: 'i-lucide-layout-dashboard',
-    highlight: 'Nuxt 4 + Pinia',
+  en: {
+    tag: 'Cloudflare Nuxt Pages Kit',
+    heroTitle: 'Ship Nuxt 4 + Cloudflare Pages in minutes',
+    heroBody:
+      'Pre-wired multi-account deployments, Pages Functions APIs, D1 migrations, and log helpers let you launch straight to the Cloudflare edge. This site itself is built with Nuxt + @nuxt/ui.',
+    ctaPrimary: 'Get Started',
+    ctaSecondary: 'View Docs',
+    ctaTutorial: 'Serverless Tutorial',
+    stats: [
+      { label: 'Time to deploy', value: '5 min', desc: 'Wrangler syncs preview & prod' },
+      { label: 'Sample APIs', value: '9', desc: 'Pages Functions, D1, KV, R2 scenarios' },
+      { label: 'Built-in scripts', value: '12', desc: 'Env switch, log tail, seed data' },
+    ],
+    workflowTitle: 'Cloudflare Workflow',
+    workflowSubtitle: 'Preview, Staging, Production',
+    workflowActions: [
+      { title: 'Deploy', code: 'pnpm deploy:test' },
+      { title: 'Logs', code: 'pnpm logs:prod' },
+      { title: 'Switch account', code: 'pnpm wrangler:config:prod' },
+    ],
+    workflowBullets: [
+      'Complete Cloudflare Pages + Functions template',
+      'D1 schema / seed / clear SQL ready',
+      'Marketing site + app template dual repo',
+    ],
+    coreEyebrow: 'Core strengths',
+    coreTitle: 'Production-ready Cloudflare × Nuxt stack',
+    coreBody:
+      'Nuxt UI tokens, ready-made hero / feature / blog slices, dark-mode friendly, minimal custom CSS.',
+    coreList: [
+      'i18n + dark mode examples',
+      'Deployment / logging / account scripts included',
+      'Extend to Pages Functions, Cron Triggers, Queues',
+    ],
+    modulesTitle: 'Modules',
+    modules: [
+      { title: 'Nuxt admin template', body: 'Pinia, mock APIs, auth routes, D1 migrations.' },
+      { title: 'Website + blog', body: 'Marketing page + /tutorial blog with i18n.' },
+      { title: 'Cloudflare DevOps', body: 'wrangler.account templates + log scripts.' },
+    ],
   },
-  {
-    title: '企业级发布流程',
-    description: '内建 staging、preview、production 三套流程，并提供日志/回滚命令确保回归安全。',
-    icon: 'i-lucide-shield-check',
-    highlight: 'Preview Ready',
+  ja: {
+    tag: 'Cloudflare Nuxt Pages Kit',
+    heroTitle: '数分で Nuxt 4 + Cloudflare Pages を公開',
+    heroBody:
+      'マルチアカウント配備、Pages Functions API、D1 マイグレーション、ログスクリプトを同梱。Cloudflare エッジへ即デプロイでき、このサイトも Nuxt + @nuxt/ui で構築。',
+    ctaPrimary: '今すぐ利用',
+    ctaSecondary: 'ドキュメント',
+    ctaTutorial: 'サーバーレス手順',
+    stats: [
+      { label: 'デプロイ時間', value: '5 分', desc: 'Wrangler で preview / prod 同期' },
+      { label: 'サンプル API', value: '9 本', desc: 'Pages Functions・D1・KV・R2' },
+      { label: '内蔵スクリプト', value: '12 本', desc: '環境切替・ログ tail・seed SQL' },
+    ],
+    workflowTitle: 'Cloudflare Workflow',
+    workflowSubtitle: 'Preview / Staging / Production',
+    workflowActions: [
+      { title: 'デプロイ', code: 'pnpm deploy:test' },
+      { title: 'ログ', code: 'pnpm logs:prod' },
+      { title: 'アカウント切替', code: 'pnpm wrangler:config:prod' },
+    ],
+    workflowBullets: [
+      'Cloudflare Pages + Functions テンプレート',
+      'D1 schema・seed・clear SQL を同梱',
+      'Website とアプリテンプレの 2 リポ構成',
+    ],
+    coreEyebrow: 'コア機能',
+    coreTitle: 'Cloudflare × Nuxt の実戦スタック',
+    coreBody:
+      '公式デザインシステムを活かして Hero / Feature / Blog を素早く構築。ダークテーマもサポート。',
+    coreList: [
+      '多言語 + ダークモード実装例',
+      'デプロイ / ログ / 切替スクリプト',
+      'Pages Functions・Cron Trigger・Queues に拡張可能',
+    ],
+    modulesTitle: 'モジュール',
+    modules: [
+      { title: 'Nuxt 管理テンプレート', body: 'Pinia・API モック・権限ルート・D1 マイグレーション。' },
+      { title: 'サイト + ブログ', body: 'マーケページと /tutorial ブログ、i18n 対応。' },
+      { title: 'Cloudflare DevOps', body: 'wrangler.account テンプレ + ログスクリプト。' },
+    ],
   },
-  {
-    title: '营销页与模板同源',
-    description: '官网与业务模板共用一套组件与设计系统，更新一次即可在两个站点同步呈现。',
-    icon: 'i-lucide-layers',
-    highlight: 'UI Sync',
-  },
-]
+}
 
-const integrations: Integration[] = [
-  {
-    name: 'Cloudflare Pages',
-    description: '自动发布 preview / production，支持自定义域名、分支预览与仪表盘监控。',
-    href: 'https://pages.cloudflare.com/',
-    icon: 'i-lucide-rocket',
-    badge: 'Preview + Prod',
-  },
-  {
-    name: 'Wrangler CLI',
-    description: '脚本化配置切换、日志跟踪与部署；大部分命令封装进 package scripts。',
-    href: 'https://developers.cloudflare.com/workers/wrangler/',
-    icon: 'i-lucide-terminal',
-    badge: 'Automation',
-  },
-  {
-    name: 'Nuxt + Pinia',
-    description: 'Nuxt 4 App Router、Server API 与 Pinia store 模式开箱即用，兼容 Vite 热更新。',
-    href: 'https://nuxt.com/',
-    icon: 'i-lucide-component',
-    badge: 'Frontend Stack',
-  },
-]
+const locale = useState<Locale>('site-locale', () => 'zh')
+const content = computed(() => messages[locale.value])
 
-const posts: Post[] = [
-  {
-    title: '让 Cloudflare Pages 真正具备全栈能力',
-    description: '通过 D1 与 Functions 打造零服务器后端，模板内含 SQL 迁移、种子数据与 KV 缓存示例。',
-    href: 'https://github.com/leeguooooo/cf-nuxt-pages-starter',
-    tag: '架构',
-    date: '2025-01-08',
-  },
-  {
-    title: '多账号 Wrangler 流程如何落地',
-    description: '使用 use-wrangler-config.mjs 脚本动态切换 account/项目，实现 preview、staging、prod 分离。',
-    href: 'https://github.com/leeguooooo/cf-nuxt-pages-starter',
-    tag: '部署',
-    date: '2024-12-12',
-  },
-  {
-    title: 'Nuxt 4 + Cloudflare Pages 的性能面板',
-    description: '结合 Nitro Cloudflare preset、R2 缓存与 Edge 函数调度，把首屏与 API 时延控制在 100ms 内。',
-    href: 'https://github.com/leeguooooo/cf-nuxt-pages-starter',
-    tag: '性能',
-    date: '2024-11-30',
-  },
-]
+function setLocale(code: Locale) {
+  locale.value = code
+}
 </script>
 
 <template>
-  <main class="landing">
+  <main class="page">
     <section class="hero">
-      <UContainer class="hero-shell">
-        <div class="hero-content">
-          <UBadge color="violet" variant="soft">Cloudflare Nuxt Pages Kit</UBadge>
-          <h1>几分钟把 Nuxt 4 + Cloudflare Pages 推向线上</h1>
-          <p>
-            预设了多账号部署、Pages Functions API、D1 数据库迁移与日志脚本，帮你把产品快速发布到
-            Cloudflare 边缘网络。本站同样使用 Nuxt + @nuxt/ui 构建，效果即所得。
-          </p>
-          <div class="hero-actions">
-            <UButton
-              v-for="link in heroLinks"
-              :key="link.label"
-              v-bind="link"
-              size="lg"
-              :target="link.href ? '_blank' : undefined"
-            />
-          </div>
-          <div class="hero-metrics">
-            <UCard
-              v-for="metric in metrics"
-              :key="metric.label"
-              :ui="{ base: 'metric-card' }"
-              class="metric-card"
-            >
-              <p class="label">{{ metric.label }}</p>
-              <p class="value">{{ metric.value }}</p>
-              <p class="helper">{{ metric.helper }}</p>
-            </UCard>
-          </div>
-        </div>
-        <UCard class="hero-panel" variant="soft">
-          <template #header>
-            <div class="panel-header">
-              <div>
-                <p class="panel-title">Cloudflare Workflow</p>
-                <p class="panel-helper">Preview、Staging、Production</p>
-              </div>
-              <UBadge color="gray" variant="soft">自动化脚本</UBadge>
-            </div>
-          </template>
-          <div class="panel-grid">
-            <div>
-              <p class="panel-label">部署命令</p>
-              <code>pnpm deploy:test</code>
-            </div>
-            <div>
-              <p class="panel-label">日志追踪</p>
-              <code>pnpm logs:prod</code>
-            </div>
-            <div>
-              <p class="panel-label">切换账号</p>
-              <code>pnpm wrangler:config:prod</code>
-            </div>
-          </div>
-          <UDivider label="内置模板" />
-          <ul class="panel-list">
-            <li>
-              <UIcon name="i-lucide-check-circle" />
-              完整的 Cloudflare Pages + Functions 模板
-            </li>
-            <li>
-              <UIcon name="i-lucide-check-circle" />
-              D1 schema、seed、clear 脚本
-            </li>
-            <li>
-              <UIcon name="i-lucide-check-circle" />
-              官网（website）与业务模板（template）双 repo
-            </li>
-          </ul>
-        </UCard>
-      </UContainer>
-    </section>
-
-    <section id="features" class="section">
-      <UContainer>
-        <header class="section-header">
-          <UBadge color="gray" variant="soft">核心能力</UBadge>
-          <div>
-            <h2>开箱即用的 Cloudflare x Nuxt 工程体系</h2>
-            <p>沿用官方设计系统，快速组合 Hero、Feature、Blog 等模块，减少自定义 CSS。</p>
-          </div>
-        </header>
-        <div class="feature-grid">
-          <UCard v-for="feature in features" :key="feature.title" class="feature-card" variant="outline">
-            <div class="feature-icon">
-              <UIcon :name="feature.icon" />
-            </div>
-            <div class="feature-copy">
-              <h3>{{ feature.title }}</h3>
-              <p>{{ feature.description }}</p>
-            </div>
-            <UBadge variant="soft" color="violet">{{ feature.highlight }}</UBadge>
-          </UCard>
-        </div>
-      </UContainer>
-    </section>
-
-    <section id="integrations" class="section muted">
-      <UContainer>
-        <header class="section-header">
-          <UBadge color="gray" variant="soft">生态集成</UBadge>
-          <div>
-            <h2>面向实战的工具链</h2>
-            <p>无论是发布流程、前端架构还是 CLI 自动化，都已经打包好最佳实践。</p>
-          </div>
-        </header>
-        <div class="integration-grid">
-          <UCard
-            v-for="integration in integrations"
-            :key="integration.name"
-            class="integration-card"
-            :ui="{ body: { padding: 'p-5' } }"
+      <div class="hero-left">
+        <div class="locales" role="group" aria-label="Language switcher">
+          <button
+            v-for="item in locales"
+            :key="item.code"
+            type="button"
+            :class="['locale-btn', { active: locale === item.code }]"
+            @click="setLocale(item.code)"
           >
-            <div class="integration-head">
-              <div class="icon">
-                <UIcon :name="integration.icon" />
-              </div>
-              <div>
-                <p class="integration-name">{{ integration.name }}</p>
-                <p class="integration-desc">{{ integration.description }}</p>
-              </div>
-            </div>
-            <div class="integration-footer">
-              <UBadge variant="soft">{{ integration.badge }}</UBadge>
-              <UButton
-                :href="integration.href"
-                target="_blank"
-                rel="noopener"
-                variant="ghost"
-                icon="i-lucide-arrow-up-right"
-                size="sm"
-              >
-                了解更多
-              </UButton>
-            </div>
-          </UCard>
+            {{ item.label }}
+          </button>
         </div>
-      </UContainer>
+        <p class="tag">{{ content.tag }}</p>
+        <h1>{{ content.heroTitle }}</h1>
+        <p class="lead">{{ content.heroBody }}</p>
+        <div class="actions">
+          <a href="https://github.com" target="_blank">{{ content.ctaPrimary }}</a>
+          <a href="/docs" class="ghost">{{ content.ctaSecondary }}</a>
+          <NuxtLink to="/tutorial" class="ghost">{{ content.ctaTutorial }}</NuxtLink>
+        </div>
+        <div class="stats">
+          <article v-for="stat in content.stats" :key="stat.label">
+            <p class="stat-label">{{ stat.label }}</p>
+            <p class="stat-value">{{ stat.value }}</p>
+            <p class="stat-desc">{{ stat.desc }}</p>
+          </article>
+        </div>
+      </div>
+      <div class="hero-right card">
+        <div class="workflow-head">
+          <div>
+            <p class="workflow-title">{{ content.workflowTitle }}</p>
+            <p class="workflow-sub">{{ content.workflowSubtitle }}</p>
+          </div>
+          <span class="badge">Wrangler</span>
+        </div>
+        <div class="workflow-cmds">
+          <div v-for="item in content.workflowActions" :key="item.title" class="cmd">
+            <p>{{ item.title }}</p>
+            <code>{{ item.code }}</code>
+          </div>
+        </div>
+        <ul class="workflow-list">
+          <li v-for="bullet in content.workflowBullets" :key="bullet">{{ bullet }}</li>
+        </ul>
+      </div>
     </section>
 
-    <section id="blog" class="section">
-      <UContainer>
-        <header class="section-header">
-          <UBadge color="gray" variant="soft">最新动态</UBadge>
-          <div>
-            <h2>产品更新与深度文章</h2>
-            <p>关注 Nuxt 4、Cloudflare Pages、D1 与边缘应用的最佳实践。</p>
-          </div>
-        </header>
-        <div class="blog-grid">
-          <UCard v-for="post in posts" :key="post.title" class="blog-card" variant="soft">
-            <UBadge variant="outline">{{ post.tag }}</UBadge>
-            <p class="blog-date">{{ post.date }}</p>
-            <h3>{{ post.title }}</h3>
-            <p>{{ post.description }}</p>
-            <UButton
-              :href="post.href"
-              target="_blank"
-              rel="noopener"
-              icon="i-lucide-arrow-up-right"
-              variant="ghost"
-              class="blog-link"
-            >
-              阅读文章
-            </UButton>
-          </UCard>
-        </div>
-      </UContainer>
+    <section class="core card">
+      <p class="eyebrow">{{ content.coreEyebrow }}</p>
+      <h2>{{ content.coreTitle }}</h2>
+      <p class="lead">{{ content.coreBody }}</p>
+      <ul class="core-list">
+        <li v-for="point in content.coreList" :key="point">{{ point }}</li>
+      </ul>
+    </section>
+
+    <section class="modules">
+      <article v-for="module in content.modules" :key="module.title" class="card module">
+        <h3>{{ module.title }}</h3>
+        <p>{{ module.body }}</p>
+      </article>
     </section>
   </main>
 </template>
 
 <style scoped>
-.landing {
-  background: linear-gradient(180deg, #f8fafc, #eef2ff 65%, #f8fafc);
-  color: #0f172a;
+:global(body) {
+  background: #f4f5fb;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
 }
 
 .hero {
-  padding: clamp(2rem, 4vw, 4rem) 0;
-  background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.25), transparent 50%), #f8fafc;
-}
-
-.hero-shell {
+  background: linear-gradient(135deg, #eef2ff, #f1f5f9 70%);
+  border-radius: 2rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
   display: grid;
-  gap: 2.5rem;
-  align-items: center;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
-.hero-content h1 {
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero-right {
+  background: #fff;
+}
+
+.card {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #fff;
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.07);
+}
+
+.locales {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.locale-btn {
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  border-radius: 999px;
+  background: transparent;
+  color: #0f172a;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+}
+
+.locale-btn.active {
+  background: #0f172a;
+  color: #fff;
+}
+
+.tag {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+h1 {
   font-size: clamp(2rem, 4vw, 3.5rem);
-  margin-top: 1.25rem;
+  margin: 0;
+  color: #0f172a;
 }
 
-.hero-content p {
-  color: #475569;
+.lead {
+  color: rgba(15, 23, 42, 0.75);
+  line-height: 1.6;
 }
 
-.hero-actions {
+.actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin: 1.75rem 0 0.5rem;
+  gap: 0.8rem;
 }
 
-.hero-metrics {
+.actions a,
+.actions .nuxt-link {
+  text-decoration: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.actions a:first-child {
+  background: linear-gradient(120deg, #22d3ee, #6366f1);
+  color: #fff;
+  border: none;
+}
+
+.actions .ghost {
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.stats article {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0.3rem 0;
+}
+
+.stat-desc {
+  color: rgba(15, 23, 42, 0.6);
+  font-size: 0.9rem;
+}
+
+.workflow-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 1.5rem;
+}
+
+.workflow-title {
+  font-weight: 600;
+  margin: 0;
+}
+
+.workflow-sub {
+  margin: 0.3rem 0 0;
+  color: rgba(15, 23, 42, 0.5);
+}
+
+.badge {
+  background: rgba(99, 102, 241, 0.12);
+  color: #4338ca;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.workflow-cmds {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
-  margin-top: 1.5rem;
+  padding: 1.5rem;
 }
 
-.metric-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+.cmd {
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 1rem;
+  padding: 1rem;
 }
 
-.metric-card .label {
-  font-size: 0.85rem;
-  color: #64748b;
-}
-
-.metric-card .value {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin: 0.25rem 0;
-  color: #1e1b4b;
-}
-
-.metric-card .helper {
-  font-size: 0.85rem;
-  color: #64748b;
-}
-
-.hero-panel {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-}
-
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.panel-title {
-  font-weight: 600;
-  margin: 0;
-}
-
-.panel-helper {
-  font-size: 0.9rem;
-  color: #64748b;
-}
-
-.panel-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.panel-label {
-  font-size: 0.8rem;
-  color: #94a3b8;
-  margin-bottom: 0.35rem;
-}
-
-.panel-grid code {
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-  background: #f1f5f9;
-  padding: 0.35rem 0.75rem;
-  border-radius: 0.5rem;
+.cmd code {
   display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.05);
 }
 
-.panel-list {
+.workflow-list {
+  list-style: none;
+  padding: 0 1.5rem 1.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: rgba(15, 23, 42, 0.75);
+}
+
+.core {
+  padding: 2.5rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: rgba(15, 23, 42, 0.5);
+}
+
+.core-list {
   list-style: none;
   padding: 0;
-  margin: 1rem 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.panel-list li {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #1e293b;
-}
-
-.panel-list :deep(svg) {
-  color: #6366f1;
-}
-
-.section {
-  padding: clamp(2.5rem, 5vw, 5rem) 0;
-  background: transparent;
-}
-
-.section.muted {
-  background: linear-gradient(180deg, #eef2ff, rgba(248, 250, 252, 0));
-}
-
-.section-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 2.5rem;
-}
-
-.section-header h2 {
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-  margin: 0;
-}
-
-.section-header p {
-  color: #475569;
-  max-width: 640px;
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.25rem;
-}
-
-.feature-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-}
-
-.feature-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: rgba(99, 102, 241, 0.15);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #8b5cf6;
-}
-
-.feature-copy h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: #0f172a;
-}
-
-.integration-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
-}
-
-.integration-head {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-.integration-head .icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(99, 102, 241, 0.1);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.integration-name {
-  font-weight: 600;
-  margin: 0;
-  color: #0f172a;
-}
-
-.integration-desc {
-  color: #475569;
-  margin: 0.35rem 0 0;
-}
-
-.integration-footer {
   margin-top: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
+  gap: 0.8rem;
 }
 
-.blog-card h3 {
-  margin-top: 0.5rem;
-  font-size: 1.2rem;
+.modules {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
 }
 
-.blog-card p {
-  color: #475569;
+.module {
+  padding: 1.5rem;
 }
 
-.blog-date {
-  font-size: 0.85rem;
-  color: #94a3b8;
+.module h3 {
+  margin-bottom: 0.6rem;
 }
 
-.blog-link {
-  margin-top: 1rem;
-  align-self: flex-start;
-}
-
-@media (max-width: 640px) {
-  .integration-footer {
+@media (max-width: 600px) {
+  .actions {
     flex-direction: column;
-    gap: 0.75rem;
-    align-items: flex-start;
-  }
-
-  .hero-shell {
-    grid-template-columns: 1fr;
+    align-items: stretch;
   }
 }
 </style>

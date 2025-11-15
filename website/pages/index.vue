@@ -153,8 +153,48 @@ const messages: Record<Locale, Copy> = {
   },
 }
 
+const repoUrl = 'https://github.com/leeguooooo/cf-nuxt-pages-starter'
+const templateUrl = `${repoUrl}/tree/main/template`
+const websiteUrl = `${repoUrl}/tree/main/website`
+const deployGuideUrl = `${repoUrl}/blob/main/template/docs/DEPLOY.md`
+const wranglerGuideUrl = `${repoUrl}/blob/main/template/docs/WRANGLER_CONFIG.md`
+
 const locale = useState<Locale>('site-locale', () => 'zh')
 const content = computed(() => messages[locale.value])
+
+const navLinks = [
+  { label: '功能', href: '#core' },
+  { label: '模块', href: '#modules' },
+  { label: '教程', to: '/tutorial' },
+]
+
+const resources = [
+  {
+    title: 'GitHub 仓库',
+    body: '获取 Cloudflare Nuxt Pages Kit 最新源码与 issue 模板。',
+    href: repoUrl,
+  },
+  {
+    title: '脚手架模板',
+    body: 'template/ 子包，包含 Pinia、D1、部署脚本等完整示例。',
+    href: templateUrl,
+  },
+  {
+    title: 'Wrangler 多账号',
+    body: 'WRANGLER_CONFIG.md 详细说明 account 切换脚本的配置方式。',
+    href: wranglerGuideUrl,
+  },
+  {
+    title: '部署指南',
+    body: 'DEPLOY.md 覆盖 Pages、D1、KV、日志 tail 的落地步骤。',
+    href: deployGuideUrl,
+  },
+  {
+    title: '官网源码',
+    body: 'website/ 子包展示如何用 Nuxt UI 组装营销页面。',
+    href: websiteUrl,
+  },
+]
 
 function setLocale(code: Locale) {
   locale.value = code
@@ -163,6 +203,17 @@ function setLocale(code: Locale) {
 
 <template>
   <main class="page">
+    <header class="site-header">
+      <NuxtLink to="/" class="logo">Cloudflare Nuxt Pages Kit</NuxtLink>
+      <nav aria-label="Primary">
+        <template v-for="item in navLinks" :key="item.label">
+          <NuxtLink v-if="item.to" :to="item.to" class="nav-link">{{ item.label }}</NuxtLink>
+          <a v-else :href="item.href" class="nav-link">{{ item.label }}</a>
+        </template>
+        <a class="repo" :href="repoUrl" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </header>
+
     <section class="hero">
       <div class="hero-left">
         <div class="locales" role="group" aria-label="Language switcher">
@@ -180,9 +231,9 @@ function setLocale(code: Locale) {
         <h1>{{ content.heroTitle }}</h1>
         <p class="lead">{{ content.heroBody }}</p>
         <div class="actions">
-          <a href="https://github.com" target="_blank">{{ content.ctaPrimary }}</a>
-          <a href="/docs" class="ghost">{{ content.ctaSecondary }}</a>
-          <NuxtLink to="/tutorial" class="ghost">{{ content.ctaTutorial }}</NuxtLink>
+          <a :href="repoUrl" target="_blank" rel="noreferrer">{{ content.ctaPrimary }}</a>
+          <a :href="deployGuideUrl" target="_blank" rel="noreferrer" class="ghost">{{ content.ctaSecondary }}</a>
+          <NuxtLink to="/tutorial" class="ghost nuxt-link">{{ content.ctaTutorial }}</NuxtLink>
         </div>
         <div class="stats">
           <article v-for="stat in content.stats" :key="stat.label">
@@ -212,7 +263,7 @@ function setLocale(code: Locale) {
       </div>
     </section>
 
-    <section class="core card">
+    <section id="core" class="core card">
       <p class="eyebrow">{{ content.coreEyebrow }}</p>
       <h2>{{ content.coreTitle }}</h2>
       <p class="lead">{{ content.coreBody }}</p>
@@ -221,12 +272,47 @@ function setLocale(code: Locale) {
       </ul>
     </section>
 
-    <section class="modules">
+    <section id="modules" class="modules">
       <article v-for="module in content.modules" :key="module.title" class="card module">
         <h3>{{ module.title }}</h3>
         <p>{{ module.body }}</p>
       </article>
     </section>
+
+    <section class="resources card">
+      <div class="resource-head">
+        <p class="eyebrow">Documentation & Source</p>
+        <h2>真实链接，一键直达</h2>
+        <p class="lead">所有按钮都指向仓库中的可用资源，避免“演示站”式的空链接。</p>
+      </div>
+      <div class="resource-grid">
+        <a
+          v-for="item in resources"
+          :key="item.title"
+          class="resource"
+          :href="item.href"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.body }}</p>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="eyebrow">准备好了吗？</p>
+        <h2>Fork 仓库或直接运行 create-project</h2>
+        <p>
+          在终端执行
+          <code>node create-project.mjs my-app</code>
+          即可复制脚手架，并通过 <code>pnpm deploy:test</code> 推送到 Cloudflare Pages preview。
+        </p>
+      </div>
+      <a :href="repoUrl" target="_blank" rel="noreferrer" class="footer-cta">访问 GitHub</a>
+    </footer>
   </main>
 </template>
 
@@ -240,6 +326,42 @@ function setLocale(code: Locale) {
   flex-direction: column;
   gap: 2rem;
   padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: rgba(15, 23, 42, 0.75);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: #0f172a;
+}
+
+.repo {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  border-radius: 999px;
 }
 
 .hero {
@@ -450,7 +572,74 @@ h1 {
   margin-bottom: 0.6rem;
 }
 
+.resources {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.resource-head h2 {
+  margin: 0.4rem 0;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.resource {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1rem;
+  padding: 1.2rem;
+  text-decoration: none;
+  color: #0f172a;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.resource span {
+  margin-top: auto;
+  font-size: 1.2rem;
+}
+
+.site-footer {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.footer-cta {
+  background: linear-gradient(120deg, #22d3ee, #6366f1);
+  padding: 0.9rem 1.8rem;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+}
+
+.site-footer code {
+  background: rgba(15, 23, 42, 0.5);
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
+}
+
 @media (max-width: 600px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .actions {
     flex-direction: column;
     align-items: stretch;

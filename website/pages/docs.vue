@@ -7,36 +7,33 @@ type DocSection = {
 
 const sections: DocSection[] = [
   {
-    title: '架构概览',
+    title: '主线 · 从零到可用',
     intro:
-      'Cloudflare Pages + Nuxt 4 + D1 的职责划分：前端与 Edge Functions 走 Pages 项目，数据层由 D1/KV/R2 支持，Wrangler 负责连接账号与部署。',
+      '这一节对应「主线任务」：从安装 CLI 到本地开发、D1 初始化、部署 preview/production，一套流程跑通后，你就拥有一个可交付的 Nuxt + Cloudflare 应用。',
     items: [
-      { label: 'Pages', body: '部署 Nuxt 产物与 Functions，preview/prod 双环境自动化。' },
-      { label: 'D1', body: 'SQLite 兼容的数据库，使用 schema/test-data.sql 管理变更。' },
-      { label: 'Wrangler', body: '脚本切换账号、执行 migrations、tail 日志。' },
+      { label: 'Step 1 · 创建项目', body: '使用 create-cf-nuxt-pages 或 npx cf-nuxt-pages-kit 拉起新项目。' },
+      { label: 'Step 2 · 本地开发', body: 'pnpm install && pnpm wrangler:config:test && pnpm dev，在本地对接 Cloudflare 账号。' },
+      { label: 'Step 3 · 部署与日志', body: 'pnpm deploy:test / pnpm deploy:prod + pnpm logs:*，完成 preview/production 的部署与观测。' },
     ],
   },
   {
-    title: 'DevOps 流水线',
+    title: '支线 · 平台与架构',
     intro:
-      '一次成型的 CI/CD，需要将 wrangler 配置、构建、部署、日志追踪收敛到一套脚本中。以下步骤可直接写入 GitHub Actions 或自托管流水线。',
+      '理解 Nuxt 4 + Cloudflare Pages 的职责划分，有助于做出正确的架构决策：哪些逻辑放在前端、边缘函数、D1/KV/R2，避免「所有问题都用一个 Worker 解决」。',
     items: [
-      { label: 'Step 1', body: 'pnpm install && pnpm lint：保证模板/官网同时通过静态检查。' },
-      { label: 'Step 2', body: 'pnpm wrangler:config:test && pnpm template:build：切换账号并构建应用。' },
-      {
-        label: 'Step 3',
-        body: 'wrangler pages deploy dist：Cloudflare 自动分发到 Edge；pnpm logs:test 校验结果。',
-      },
+      { label: 'Pages & Functions', body: '静态资源与 Edge Functions 同属一个 Pages 项目，支持按环境拆分 preview/prod。' },
+      { label: 'Nuxt + Nitro', body: 'nitro preset=cloudflare-pages，构建产物在 .output/public，中间层逻辑通过 server 目录暴露为边缘函数。' },
+      { label: '多项目协作', body: 'template/ 与 website/ 共用一套理念：业务项目用 template，官网用 website，对外讲述产品。' },
     ],
   },
   {
-    title: '产品体验',
+    title: '支线 · 数据与运维',
     intro:
-      '官网 + 模板组成双引擎：网站负责讲述产品故事，模板为业务方提供可扩展的 Nuxt 项目。下面的体验建议可以直接执行。',
+      '主线跑通之后，可以逐步把 D1、KV、R2、日志体系接入项目，让应用具备真正的生产可用性，而不是停留在 demo 阶段。',
     items: [
-      { label: '多语言', body: '沿用 pages/index.vue 的 messages 数据结构，快速扩充语言。' },
-      { label: '教程', body: 'tutorial.vue 提供零服务器流程，可新增更多步骤与截图。' },
-      { label: '博客', body: '/blog/[slug].vue 封装文章结构，可持续扩展内容。' },
+      { label: 'D1', body: '通过 schema.sql/test-data.sql/clear-test-data.sql 管理结构与样例数据，使用 wrangler d1 migrations 进行迁移。' },
+      { label: 'KV & R2', body: 'KV 适合做配置、会话、短链；R2 适合作为静态资源与上传文件的存储层。' },
+      { label: 'Wrangler + 日志', body: 'wrangler.account-*.toml + pnpm logs:test|prod 把多账号切换和日志 tail 固化到脚本中。' },
     ],
   },
 ]
@@ -87,7 +84,7 @@ const faqs = [
           <p class="label">Documentation</p>
           <h1>Cloudflare Nuxt Pages Kit <br><span class="gradient-text">Knowledge Hub</span></h1>
           <p class="subtitle">
-            本页汇总了脚手架的核心概念、运维流程与体验建议，适合在实现纵队 / 重构纵队 / 向上管理纵队之间共享，确保所有流程、接口契约一次成型。
+            本页将内容拆成「主线任务」和「支线任务」：主线带你从 0 到部署上线，支线则帮助你按需深入 Workers / Pages / D1 / KV / R2 等相关能力。
           </p>
           <div class="cta">
             <NuxtLink to="/blog" class="btn ghost">阅读博客</NuxtLink>

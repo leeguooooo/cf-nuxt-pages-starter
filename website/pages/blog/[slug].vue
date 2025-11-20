@@ -19,7 +19,7 @@ type Article = {
 const articles: Record<string, Article> = {
   'edge-ready-admin': {
     hero: 'Edge Ready',
-    title: 'Edge Ready Nuxt Admin：Cloudflare Pages + D1 实战拆解',
+    title: 'Edge Ready Nuxt Admin：Cloudflare Pages + D1 主线实战',
     summary:
       '带你把 template/ 目录复制后的管理后台，在 preview 环境 5 分钟内上线，并利用 D1 schema.sql/test-data.sql 完成初始化与验证。',
     topic: 'Architecture',
@@ -52,6 +52,16 @@ wrangler d1 execute cf-nuxt-pages-db --file=./test-data.sql`,
           '完成验证后直接 pnpm deploy:prod，Production 与 Preview 每次都可复现',
         ],
       },
+      {
+        heading: '步骤四：接入 KV / R2 / Durable Objects',
+        body:
+          '在主线跑通后，可以按需把更多 Cloudflare 能力接入同一套脚手架：KV 用于缓存配置与会话、R2 存放用户上传文件、Durable Objects 作为长连接房间或有状态协调器。通过 runtimeConfig 读取 env 绑定，将这些服务与 Nuxt store、API 路由串联起来。',
+        bullets: [
+          '在 wrangler.account-*.toml 中增加 KV/R2/DO 绑定，再在 Pages 项目中开启对应资源',
+          '在 server/api 中通过 useRuntimeConfig().cloudflare.env 访问 KV / R2 / DO，避免在组件里直接依赖全局变量',
+          '清晰地划分边界：D1 做持久化数据，KV 做高频读取缓存，R2 存大文件，DO 管理会话/房间状态',
+        ],
+      },
     ],
     resources: [
       { label: '查看所有博客', to: '/blog' },
@@ -62,7 +72,7 @@ wrangler d1 execute cf-nuxt-pages-db --file=./test-data.sql`,
     hero: 'DevOps',
     title: 'Wrangler 自动化与日志体系：从脚本到 CI',
     summary:
-      '基础设施防线要求「不打补丁战」，因此 wrangler 流水线需要原子化。本文从 scripts/use-wrangler-config.mjs 起步，讲解如何把账号切换、日志 tail、SQL 执行全部写进自动化任务。',
+      '基础设施防线要求「不打补丁战」，因此 wrangler 流水线需要原子化。本文从 scripts/use-wrangler-config.mjs 起步，讲解如何把账号切换、日志 tail、SQL 执行全部写进自动化任务，并融入 CI。',
     topic: 'DevOps',
     readingTime: '6 min read',
     sections: [
@@ -87,7 +97,17 @@ wrangler d1 execute cf-nuxt-pages-db --file=./test-data.sql`,
       {
         heading: 'CI 集成：一次成型',
         body:
-          '在 GitHub Actions 中，把 wrangler CLI 与 pnpm 脚本结合：install 依赖、运行 lint/test、pnpm deploy:test。若需要部署 production，可以在保护分支上触发单独 workflow，以避免手动 patch。',
+          '在 GitHub Actions 中，把 wrangler CLI 与 pnpm 脚本结合：install 依赖、运行 lint/test、pnpm deploy:test。若需要部署 production，可以在保护分支上触发单独 workflow，以避免手动 patch。CI 中统一使用 wrangler.account-*.toml，保证本地与流水线环境一致。',
+      },
+      {
+        heading: '多环境与回滚策略',
+        body:
+          '利用 Cloudflare Pages 的 preview/production 模型，可以为每个 PR 自动构建 preview，主干合并后再部署到 production。通过 wrangler pages deployment list/tail，你可以快速发现问题并回滚到上一个稳定 deployment，而不是在服务器上做危险操作。',
+        bullets: [
+          '在 CI 中为 main 分支配置「部署到 production」，为其他分支部署到 preview',
+          '遇到故障时，通过 Dashboard 或 wrangler 指定 deployment 进行回滚',
+          '日志与指标保持在同一个观测面板中，减少排障时间',
+        ],
       },
     ],
     resources: [
@@ -99,7 +119,7 @@ wrangler d1 execute cf-nuxt-pages-db --file=./test-data.sql`,
     hero: 'UX',
     title: '多语言官网的 UX 设计：@nuxt/ui + Cloudflare Pages',
     summary:
-      '官网 demo 与业务模板一样重要。本篇分享如何利用 @nuxt/ui token、Nuxt 状态管理与 Cloudflare Pages 的极速发布能力，打造真正可上线的营销站点。',
+      '官网 demo 与业务模板一样重要。本篇分享如何利用 @nuxt/ui token、Nuxt 状态管理与 Cloudflare Pages 的极速发布能力，打造真正可上线的多语言营销站点。',
     topic: 'UX',
     readingTime: '5 min read',
     sections: [
@@ -124,7 +144,12 @@ const content = computed(() => messages[locale.value])`,
       {
         heading: '部署与缓存',
         body:
-          '官网与模板同 repo，不需要额外 monorepo。Pages 针对静态页面自动开启 CDN 缓存，同时保留 Functions 能力供表单或订阅 API 使用。Wrangler pages deploy dist --project-name=cf-nuxt-pages-kit-site 即可上云。',
+          '官网与模板同 repo，不需要额外 monorepo。Pages 针对静态页面自动开启 CDN 缓存，同时保留 Functions 能力供表单或订阅 API 使用。通过 wrangler pages deploy .output/public --project-name=cf-nuxt-pages-kit-site 即可上云。',
+        bullets: [
+          '静态页面默认享受全局 CDN 缓存，适合文案与文档类内容',
+          '对于需要个性化或实时数据的模块，可通过 server/api 配合 KV/D1 提供动态内容',
+          '多语言内容建议统一通过数据结构管理（如 messages 对象），方便未来接入 CMS 或翻译流程',
+        ],
       },
     ],
     resources: [

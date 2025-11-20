@@ -184,10 +184,14 @@ onUnmounted(() => {
 
         <!-- Mane (Spikes) -->
         <TresGroup :position="[0, 0, -0.5]">
-          <TresMesh 
-            v-for="(part, index) in maneParts" 
+          <TresMesh
+            v-for="(part, index) in maneParts"
             :key="index"
-            :ref="(el) => { maneRefs.value[index] = el }"
+            :ref="(el) => {
+              if (!el) return
+              if (!Array.isArray(maneRefs.value)) maneRefs.value = []
+              maneRefs.value[index] = el
+            }"
             :position="part.position"
             :rotation="part.rotation"
             cast-shadow

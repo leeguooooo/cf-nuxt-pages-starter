@@ -116,9 +116,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 0, 15]" :fov="50" :look-at="[0, 0, 0]" />
-    <OrbitControls enable-zoom="false" enable-pan="false" />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[0, 0, 15]" :fov="50" :look-at="[0, 0, 0]" />
+    <OrbitControls :enable-zoom="false" :enable-pan="false" />
     
     <!-- Lighting (Soft Studio) -->
     <TresHemisphereLight :args="['#ffffff', '#b3858c', 0.8]" />
@@ -187,7 +187,7 @@ onUnmounted(() => {
           <TresMesh 
             v-for="(part, index) in maneParts" 
             :key="index"
-            :ref="(el) => { if (el) maneRefs[index] = el }"
+            :ref="(el) => { maneRefs.value[index] = el }"
             :position="part.position"
             :rotation="part.rotation"
             cast-shadow

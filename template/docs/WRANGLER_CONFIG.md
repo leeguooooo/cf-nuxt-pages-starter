@@ -14,8 +14,8 @@
 ## 配置模板
 ```toml
 name = "cf-nuxt-pages-kit"
-compatibility_date = "2025-01-01"
-pages_build_output_dir = "dist"
+compatibility_date = "2024-12-01"
+pages_build_output_dir = ".output/public"
 
 [vars]
 CDN_BASE_URL = "https://cdn.example.com"

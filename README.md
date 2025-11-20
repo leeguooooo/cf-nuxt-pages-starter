@@ -34,7 +34,7 @@ node create-project.mjs my-admin
 
 cd my-admin
 pnpm install
-pnpm deploy:test
+pnpm run deploy:test
 ```
 
 官网示例请参考 `website/README.md`。
@@ -52,7 +52,7 @@ pnpm template:dev
 pnpm website:dev
 
 # （可选）部署官网（默认 project name cf-nuxt-pages-kit-site）
-cd website && pnpm deploy
+cd website && pnpm run deploy
 ```
 
 > `pnpm-workspace.yaml` 将 `template/` 与 `website/` 纳入工作空间，根目录执行 `pnpm install` 即可一次性安装所有依赖。

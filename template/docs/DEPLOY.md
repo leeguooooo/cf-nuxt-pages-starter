@@ -12,7 +12,7 @@ pnpm wrangler:config:test  # 或 prod
 pnpm deploy:test           # 构建并部署到 Cloudflare Pages
 ```
 
-`wrangler:config:*` 会把对应账号的 `wrangler.account-*.toml` 复制为根目录的 `wrangler.toml`，因为 Pages 只能读取默认配置文件。
+`wrangler:config:*` 会把对应账号的 `wrangler.account-*.toml` 复制为根目录的 `wrangler.toml`，因为 Pages 只能读取默认配置文件。默认部署目录为 `.output/public`（Nuxt 4 + Cloudflare Pages 的产物）。
 
 ## 查看 Cloudflare Pages 日志
 ```bash
@@ -24,5 +24,5 @@ pnpm logs:prod   # 生产账号
 
 ## 常见问题
 - **找不到数据库**：确认 `wrangler.account-*.toml` 内的 `database_id` 指向当前账号下存在的 D1。
-- **部署目录错误**：模板使用 `dist` 作为输出路径；如果改成 `.output/public`，记得同步 `wrangler.account-*.toml`。
+- **部署目录错误**：模板使用 `.output/public` 作为输出路径；如果改成别的目录，记得同步 `wrangler.account-*.toml` 与部署脚本。
 - **多账号切换**：再次运行 `pnpm wrangler:config:<env>` 即可覆盖 `wrangler.toml`。

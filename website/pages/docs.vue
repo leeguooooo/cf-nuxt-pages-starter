@@ -96,6 +96,25 @@ const faqs = [
         </div>
       </header>
 
+      <section class="install-section">
+        <div class="install-content">
+          <h2>安装 CLI 工具</h2>
+          <p class="install-desc">使用 npm 全局安装或通过 npx 直接使用</p>
+          <div class="install-grid">
+            <div class="install-card">
+              <h3>全局安装</h3>
+              <CopyableCode code="npm install -g cf-nuxt-pages-kit" language="bash" />
+              <p class="install-card-note">安装后可在任意目录使用 <code>create-cf-nuxt-pages</code> 命令</p>
+            </div>
+            <div class="install-card">
+              <h3>创建项目</h3>
+              <CopyableCode code="create-cf-nuxt-pages my-app" language="bash" />
+              <p class="install-card-note">或使用 npx：<code>npx cf-nuxt-pages-kit my-app</code></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div class="content-grid">
         <section v-for="section in sections" :key="section.title" class="glass-card section">
           <div class="head">
@@ -244,6 +263,66 @@ h1 {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+}
+
+.install-section {
+  margin: 2rem 0;
+}
+
+.install-content {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.install-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.5rem 0;
+}
+
+.install-desc {
+  color: #64748b;
+  margin: 0 0 2rem 0;
+}
+
+.install-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.install-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.install-card h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.install-card-note {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.install-card-note code {
+  background: rgba(99, 102, 241, 0.1);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #6366f1;
 }
 
 .btn {

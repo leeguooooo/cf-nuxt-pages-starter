@@ -125,6 +125,10 @@ const content = computed(() => messages[locale.value])
 function setLocale(code: Locale) {
   locale.value = code
 }
+
+function isActive(code: Locale) {
+  return locale.value === code
+}
 </script>
 
 <template>
@@ -142,7 +146,7 @@ function setLocale(code: Locale) {
             v-for="item in locales"
             :key="item.code"
             type="button"
-            :class="['locale-btn', { active: locale === item.code }]"
+            :class="['locale-btn', { active: isActive(item.code) }]"
             @click="setLocale(item.code)"
           >
             {{ item.label }}
@@ -157,6 +161,22 @@ function setLocale(code: Locale) {
         <div class="actions">
           <NuxtLink :to="content.ctaPrimaryTo" class="btn primary">{{ content.ctaPrimary }}</NuxtLink>
           <NuxtLink :to="content.ctaSecondaryTo" class="btn secondary">{{ content.ctaSecondary }}</NuxtLink>
+        </div>
+      </section>
+
+      <section class="install">
+        <h2 class="install-title">快速开始</h2>
+        <p class="install-subtitle">使用 CLI 工具一键创建项目</p>
+        <div class="install-commands">
+          <div class="install-step">
+            <p class="step-label">全局安装（可选）</p>
+            <CopyableCode code="npm install -g cf-nuxt-pages-kit" language="bash" />
+          </div>
+          <div class="install-step">
+            <p class="step-label">创建项目</p>
+            <CopyableCode code="create-cf-nuxt-pages my-app" language="bash" />
+            <p class="step-note">或使用 npx：<code>npx cf-nuxt-pages-kit my-app</code></p>
+          </div>
         </div>
       </section>
 
@@ -286,6 +306,64 @@ function setLocale(code: Locale) {
   max-width: 600px;
   line-height: 1.6;
   margin: 0;
+}
+
+.install {
+  padding: 4rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.install-title {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  text-align: center;
+  color: #0f172a;
+  margin: 0 0 0.5rem 0;
+}
+
+.install-subtitle {
+  text-align: center;
+  color: #64748b;
+  font-size: 1.125rem;
+  margin: 0 0 2.5rem 0;
+}
+
+.install-commands {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.install-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.step-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.step-note {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.step-note code {
+  background: rgba(15, 23, 42, 0.1);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #6366f1;
 }
 
 .actions {

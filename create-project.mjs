@@ -25,6 +25,8 @@ Cloudflare Nuxt Pages Kit - 快速创建项目
 const starterRoot = resolve(fileURLToPath(new URL('.', import.meta.url)))
 const templateDir = resolve(starterRoot, 'template')
 const targetDir = resolve(process.cwd(), rawTarget)
+const skipEntries = new Set(['node_modules', '.output', 'dist', '.wrangler'])
+const skipFiles = new Set(['wrangler.toml', 'pnpm-lock.yaml', 'package-lock.json', 'yarn.lock'])
 
 if (!existsSync(templateDir)) {
   console.error(`错误: 找不到模板目录: ${templateDir}`)
@@ -40,7 +42,14 @@ if (existsSync(targetDir)) {
 try {
   console.log(`正在创建项目: ${rawTarget}...`)
   mkdirSync(targetDir, { recursive: true })
-  cpSync(templateDir, targetDir, { recursive: true })
+  cpSync(templateDir, targetDir, {
+    recursive: true,
+    filter: (source) => {
+      const name = basename(source)
+      if (skipEntries.has(name) || skipFiles.has(name)) return false
+      return true
+    },
+  })
   
   console.log(`\n✓ 项目创建成功！`)
   console.log(`\n下一步：`)

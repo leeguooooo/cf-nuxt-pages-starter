@@ -50,16 +50,28 @@ const guides = [
       <h2>零服务器全栈流程</h2>
       <ol>
         <li>
-          Fork/下载 Cloudflare Nuxt Pages Kit，运行 `node create-project.mjs my-app`。
+          <p>安装 CLI 工具并创建项目：</p>
+          <CopyableCode code="npm install -g cf-nuxt-pages-kit" language="bash" />
+          <CopyableCode code="create-cf-nuxt-pages my-app" language="bash" />
+          <p class="step-note">或使用 npx：<code>npx cf-nuxt-pages-kit my-app</code></p>
         </li>
         <li>
-          `pnpm install && pnpm wrangler:config:test`，创建 D1：`wrangler d1 create cf-nuxt-pages-db` 并写入模板。
+          <p>安装依赖并配置 Wrangler：</p>
+          <CopyableCode code="cd my-app" language="bash" />
+          <CopyableCode code="pnpm install && pnpm wrangler:config:test" language="bash" />
+          <p>创建 D1 数据库：</p>
+          <CopyableCode code="wrangler d1 create cf-nuxt-pages-db" language="bash" />
+          <p class="step-note">将返回的 database_id 写入模板的 wrangler.account-test.toml</p>
         </li>
         <li>
-          通过 `pnpm deploy:test` 发布到 Pages 预览域名；使用 `pnpm logs:test` tail 日志验证 API。
+          <p>部署到预览环境并查看日志：</p>
+          <CopyableCode code="pnpm deploy:test" language="bash" />
+          <CopyableCode code="pnpm logs:test" language="bash" />
         </li>
         <li>
-          完成功能后运行 `pnpm deploy:prod`，并在 Cloudflare Dashboard 绑定自定义域名。
+          <p>部署到生产环境：</p>
+          <CopyableCode code="pnpm deploy:prod" language="bash" />
+          <p class="step-note">在 Cloudflare Dashboard 绑定自定义域名</p>
         </li>
       </ol>
     </section>
@@ -151,6 +163,32 @@ return await db.prepare('SELECT * FROM posts ORDER BY published_at DESC').all()<
 ol {
   padding-left: 1.25rem;
   line-height: 1.6;
+}
+
+ol li {
+  margin-bottom: 1.5rem;
+}
+
+ol li p {
+  margin: 0.5rem 0;
+  color: #334155;
+}
+
+.step-note {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0.5rem 0 0 0;
+  font-style: italic;
+}
+
+.step-note code {
+  background: rgba(99, 102, 241, 0.1);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #6366f1;
+  font-style: normal;
 }
 
 pre {

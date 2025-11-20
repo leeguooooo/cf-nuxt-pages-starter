@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      wrangler:
+        specifier: ^4.45.3
+        version: 4.48.0
 
   template:
     dependencies:

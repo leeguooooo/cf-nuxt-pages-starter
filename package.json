@@ -40,5 +40,8 @@
     "website:dev": "pnpm --filter cf-nuxt-pages-kit-site dev",
     "website:build": "pnpm --filter cf-nuxt-pages-kit-site build",
     "deploy": "pnpm --filter cf-nuxt-pages-kit-site run deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.45.3"
   }
 }

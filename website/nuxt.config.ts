@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'cloudflare-pages',
   },
-  modules: ['@nuxt/ui'],
+  modules: ['@nuxt/ui', '@tresjs/nuxt'],
   ui: {
     primary: 'violet',
     gray: 'slate',

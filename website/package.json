@@ -14,7 +14,10 @@
   },
   "dependencies": {
     "@nuxt/ui": "^2.15.0",
-    "nuxt": "^4.2.0"
+    "@tresjs/cientos": "^5.1.1",
+    "@tresjs/nuxt": "^5.1.1",
+    "nuxt": "^4.2.0",
+    "three": "^0.181.2"
   },
   "devDependencies": {
     "wrangler": "^4.45.3"

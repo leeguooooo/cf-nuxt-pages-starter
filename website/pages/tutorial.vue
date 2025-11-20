@@ -1,3 +1,23 @@
+<script setup lang="ts">
+const guides = [
+  {
+    title: 'Edge Ready Admin',
+    body: '复制 template + 初始化 D1，preview 环境 5 分钟交付。',
+    to: '/blog/edge-ready-admin',
+  },
+  {
+    title: 'Wrangler 自动化',
+    body: '多账号配置、日志 tail、SQL 执行一键完成。',
+    to: '/blog/wrangler-observability',
+  },
+  {
+    title: '多语言官网 UX',
+    body: '@nuxt/ui + Pages 构建真正可上线的营销站点。',
+    to: '/blog/marketing-i18n',
+  },
+]
+</script>
+
 <template>
   <div class="tutorial">
     <header class="hero">
@@ -67,6 +87,18 @@ return await db.prepare('SELECT * FROM posts ORDER BY published_at DESC').all()<
         </li>
       </ol>
     </section>
+
+    <section class="guides">
+      <h2>进阶教程</h2>
+      <p>如果你已经跑通零服务器流程，继续深入这些站内文章，获取更细粒度的实践指南。</p>
+      <div class="guides-grid">
+        <NuxtLink v-for="item in guides" :key="item.title" :to="item.to" class="guide-card">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.body }}</p>
+          <span>阅读 →</span>
+        </NuxtLink>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -134,6 +166,32 @@ code {
   font-size: 0.9rem;
 }
 
+.guides {
+  background: rgba(248, 250, 252, 0.95);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+}
+
+.guides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.guide-card {
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 @media (prefers-color-scheme: dark) {
   .tutorial {
     color: #e2e8f0;
@@ -150,6 +208,11 @@ code {
 
   pre {
     background: rgba(2, 6, 23, 0.9);
+  }
+
+  .guides {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(148, 163, 184, 0.2);
   }
 }
 </style>

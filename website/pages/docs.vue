@@ -76,170 +76,449 @@ const faqs = [
 </script>
 
 <template>
-  <div class="docs">
-    <header class="hero">
-      <p class="label">Docs</p>
-      <h1>Cloudflare Nuxt Pages Kit 文档</h1>
-      <p>
-        本页汇总了脚手架的核心概念、运维流程与体验建议，适合在实现纵队 / 重构纵队 / 向上管理纵队之间共享，确保所有流程、接口契约一次成型。
-      </p>
-      <div class="cta">
-        <NuxtLink to="/blog" class="ghost">阅读博客</NuxtLink>
-        <NuxtLink to="/tutorial" class="primary">立即实践</NuxtLink>
-      </div>
-    </header>
+  <div class="docs-page">
+    <!-- Background Elements -->
+    <div class="bg-gradient-1"></div>
+    <div class="bg-gradient-2"></div>
 
-    <section v-for="section in sections" :key="section.title" class="section card">
-      <div class="head">
-        <h2>{{ section.title }}</h2>
-        <p>{{ section.intro }}</p>
-      </div>
-      <div class="items">
-        <article v-for="item in section.items" :key="item.label">
-          <p class="eyebrow">{{ item.label }}</p>
-          <p>{{ item.body }}</p>
-        </article>
-      </div>
-    </section>
+    <div class="container">
+      <header class="hero">
+        <div class="hero-content">
+          <p class="label">Documentation</p>
+          <h1>Cloudflare Nuxt Pages Kit <br><span class="gradient-text">Knowledge Hub</span></h1>
+          <p class="subtitle">
+            本页汇总了脚手架的核心概念、运维流程与体验建议，适合在实现纵队 / 重构纵队 / 向上管理纵队之间共享，确保所有流程、接口契约一次成型。
+          </p>
+          <div class="cta">
+            <NuxtLink to="/blog" class="btn ghost">阅读博客</NuxtLink>
+            <NuxtLink to="/tutorial" class="btn primary">立即实践</NuxtLink>
+          </div>
+        </div>
+      </header>
 
-    <section class="quick card">
-      <div class="head">
-        <h2>Knowledge Hub</h2>
-        <p>从这里跳到文章或教程，持续加深理解。</p>
-      </div>
-      <div class="quick-grid">
-        <NuxtLink v-for="item in quickLinks" :key="item.title" :to="item.to" class="quick-card">
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.body }}</p>
-          <span>查看详情 →</span>
-        </NuxtLink>
-      </div>
-    </section>
+      <div class="content-grid">
+        <section v-for="section in sections" :key="section.title" class="glass-card section">
+          <div class="head">
+            <h2>{{ section.title }}</h2>
+            <p>{{ section.intro }}</p>
+          </div>
+          <div class="items">
+            <article v-for="item in section.items" :key="item.label" class="item-card">
+              <div class="item-icon"></div>
+              <div>
+                <p class="eyebrow">{{ item.label }}</p>
+                <p class="body">{{ item.body }}</p>
+              </div>
+            </article>
+          </div>
+        </section>
 
-    <section class="faq card">
-      <div class="head">
-        <h2>FAQs</h2>
-        <p>团队内最常见的 3 个问题，保持跨战线对齐。</p>
+        <section class="glass-card quick">
+          <div class="head">
+            <h2>Quick Access</h2>
+            <p>从这里跳到文章或教程，持续加深理解。</p>
+          </div>
+          <div class="quick-grid">
+            <NuxtLink v-for="item in quickLinks" :key="item.title" :to="item.to" class="quick-card">
+              <div class="icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              </div>
+              <div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.body }}</p>
+              </div>
+              <span class="arrow">→</span>
+            </NuxtLink>
+          </div>
+        </section>
+
+        <section class="glass-card faq">
+          <div class="head">
+            <h2>FAQs</h2>
+            <p>团队内最常见的 3 个问题，保持跨战线对齐。</p>
+          </div>
+          <div class="faq-list">
+            <article v-for="item in faqs" :key="item.q" class="faq-item">
+              <div class="q-row">
+                <span class="q-icon">Q</span>
+                <h3>{{ item.q }}</h3>
+              </div>
+              <p class="answer">{{ item.a }}</p>
+            </article>
+          </div>
+        </section>
       </div>
-      <div class="faq-list">
-        <article v-for="item in faqs" :key="item.q">
-          <h3>{{ item.q }}</h3>
-          <p>{{ item.a }}</p>
-        </article>
-      </div>
-    </section>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.docs {
-  padding: 3rem clamp(1.5rem, 5vw, 4rem);
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  color: #0f172a;
+.docs-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 4rem clamp(1.5rem, 5vw, 4rem);
+  color: #1e293b;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
 }
 
-.hero {
-  background: linear-gradient(140deg, #fdf2f8, #eff6ff);
-  border-radius: 2rem;
-  padding: clamp(2rem, 5vw, 3rem);
+/* Ambient Backgrounds */
+.bg-gradient-1 {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(255,255,255,0) 70%);
+  filter: blur(60px);
+  z-index: -1;
+}
+
+.bg-gradient-2 {
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(255,255,255,0) 70%);
+  filter: blur(60px);
+  z-index: -1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  gap: 4rem;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
 }
 
 .label {
   text-transform: uppercase;
-  letter-spacing: 0.4em;
-  color: rgba(15, 23, 42, 0.5);
-  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6366f1;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #64748b;
+  max-width: 600px;
 }
 
 .cta {
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
-.cta .ghost,
-.cta .primary {
-  text-decoration: none;
-  border-radius: 999px;
+.btn {
   padding: 0.75rem 1.5rem;
+  border-radius: 999px;
   font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-.ghost {
-  border: 1px solid rgba(15, 23, 42, 0.2);
-  color: #0f172a;
-}
-
-.primary {
-  background: linear-gradient(120deg, #ec4899, #6366f1);
+.btn.primary {
+  background: #0f172a;
   color: #fff;
+  box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3);
 }
 
-.card {
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px -5px rgba(15, 23, 42, 0.4);
+}
+
+.btn.ghost {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  color: #0f172a;
+  backdrop-filter: blur(4px);
+}
+
+.btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Glass Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 1.5rem;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: #fff;
-  padding: 1.75rem;
-  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.08);
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.section .items {
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+}
+
+.content-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.head h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.head p {
+  color: #64748b;
+}
+
+/* Section Items */
+.items {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.item-card {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
   gap: 1rem;
-  margin-top: 1.5rem;
+  align-items: flex-start;
+}
+
+.item-icon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6366f1;
+  margin-top: 0.5rem;
+  flex-shrink: 0;
 }
 
 .eyebrow {
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
   font-size: 0.75rem;
-  color: rgba(15, 23, 42, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #6366f1;
+  margin-bottom: 0.25rem;
 }
 
+.body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #334155;
+}
+
+/* Quick Links */
 .quick-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
 .quick-card {
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 1.5rem;
   border-radius: 1rem;
-  padding: 1.25rem;
   text-decoration: none;
   color: inherit;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
+.quick-card:hover {
+  border-color: #6366f1;
+  transform: translateY(-2px);
+}
+
+.icon-box {
+  width: 40px;
+  height: 40px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-card h3 {
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.quick-card p {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.arrow {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: #cbd5e1;
+  transition: color 0.3s;
+}
+
+.quick-card:hover .arrow {
+  color: #6366f1;
+}
+
+/* FAQ */
 .faq-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
+.faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.q-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.q-icon {
+  background: #0f172a;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.faq-item h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.5;
+}
+
+.answer {
+  padding-left: 2.25rem;
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* Dark Mode */
 @media (prefers-color-scheme: dark) {
-  .docs {
+  .docs-page {
     background: #020617;
     color: #e2e8f0;
   }
 
-  .card {
-    background: rgba(2, 6, 23, 0.8);
-    border-color: rgba(148, 163, 184, 0.25);
+  .bg-gradient-1 {
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, rgba(2, 6, 23, 0) 70%);
   }
 
-  .hero {
-    background: linear-gradient(140deg, rgba(236, 72, 153, 0.25), rgba(99, 102, 241, 0.25));
+  .bg-gradient-2 {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(2, 6, 23, 0) 70%);
   }
+
+  h1 { color: #f8fafc; }
+  .subtitle { color: #94a3b8; }
+
+  .btn.primary {
+    background: #f8fafc;
+    color: #0f172a;
+  }
+
+  .btn.ghost {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+  }
+
+  .glass-card {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .head h2 { color: #f8fafc; }
+  .head p { color: #94a3b8; }
+
+  .item-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .body { color: #cbd5e1; }
+
+  .quick-card {
+    background: rgba(30, 41, 59, 0.5);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .quick-card h3 { color: #f8fafc; }
+  .quick-card p { color: #94a3b8; }
+
+  .q-icon {
+    background: #38bdf8;
+    color: #0f172a;
+  }
+
+  .faq-item h3 { color: #f8fafc; }
+  .answer { color: #cbd5e1; }
 }
 </style>

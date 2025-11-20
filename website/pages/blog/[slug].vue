@@ -154,149 +154,295 @@ useHead(() => ({
 </script>
 
 <template>
-  <article class="post">
-    <header class="hero">
-      <p class="badge">{{ article.hero }} · {{ article.topic }}</p>
-      <h1>{{ article.title }}</h1>
-      <p class="summary">{{ article.summary }}</p>
-      <div class="meta">
-        <span>{{ article.readingTime }}</span>
-        <span>Cloudflare Nuxt Pages Kit</span>
+  <article class="post-page">
+    <div class="bg-gradient"></div>
+    
+    <div class="container">
+      <header class="hero">
+        <div class="hero-meta">
+          <span class="badge">{{ article.topic }}</span>
+          <span class="time">{{ article.readingTime }}</span>
+        </div>
+        <h1>{{ article.title }}</h1>
+        <p class="summary">{{ article.summary }}</p>
+      </header>
+
+      <div class="content-wrapper">
+        <section v-for="section in article.sections" :key="section.heading" class="section">
+          <h2>{{ section.heading }}</h2>
+          <p>{{ section.body }}</p>
+          <ul v-if="section.bullets" class="bullets">
+            <li v-for="item in section.bullets" :key="item">{{ item }}</li>
+          </ul>
+          <div v-if="section.code" class="code-block">
+            <div class="code-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <pre><code>{{ section.code }}</code></pre>
+          </div>
+        </section>
+
+        <section v-if="article.resources.length" class="resources">
+          <h3>Further Reading</h3>
+          <div class="resource-grid">
+            <NuxtLink v-for="item in article.resources" :key="item.label" :to="item.to" class="resource-link">
+              {{ item.label }} <span class="arrow">→</span>
+            </NuxtLink>
+          </div>
+        </section>
       </div>
-    </header>
-
-    <section v-for="section in article.sections" :key="section.heading" class="section">
-      <h2>{{ section.heading }}</h2>
-      <p>{{ section.body }}</p>
-      <ul v-if="section.bullets" class="bullets">
-        <li v-for="item in section.bullets" :key="item">{{ item }}</li>
-      </ul>
-      <pre v-if="section.code"><code>{{ section.code }}</code></pre>
-    </section>
-
-    <section v-if="article.resources.length" class="resources">
-      <h3>延伸阅读</h3>
-      <ul>
-        <li v-for="item in article.resources" :key="item.label">
-          <NuxtLink :to="item.to">{{ item.label }}</NuxtLink>
-        </li>
-      </ul>
-    </section>
+    </div>
   </article>
 </template>
 
 <style scoped>
-.post {
-  padding: clamp(1.5rem, 5vw, 4rem);
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  color: #0f172a;
+.post-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 4rem clamp(1.5rem, 5vw, 4rem);
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
 }
 
-.hero {
-  background: linear-gradient(120deg, #312e81, #1e1b4b);
-  color: #eef2ff;
-  padding: clamp(2rem, 5vw, 3.5rem);
-  border-radius: 2rem;
+.bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  background: linear-gradient(180deg, rgba(236, 72, 153, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  gap: 3rem;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem 0;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
   gap: 1rem;
 }
 
 .badge {
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  font-size: 0.8rem;
-  opacity: 0.8;
+  letter-spacing: 0.05em;
+}
+
+.time {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
 }
 
 .summary {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #64748b;
+  max-width: 650px;
 }
 
-.meta {
+/* Content */
+.content-wrapper {
   display: flex;
-  gap: 1.5rem;
-  opacity: 0.8;
-  font-size: 0.95rem;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .section {
-  background: #fff;
-  border-radius: 1.5rem;
-  padding: 1.8rem;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.section h2 {
-  margin-bottom: 0.75rem;
-  font-size: 1.5rem;
+h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 1rem;
+  letter-spacing: -0.01em;
 }
 
-.section p {
-  line-height: 1.7;
-  color: rgba(15, 23, 42, 0.9);
+p {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: #334155;
 }
 
 .bullets {
-  list-style: disc;
-  padding-left: 1.25rem;
-  color: rgba(15, 23, 42, 0.85);
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-left: 1rem;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: #334155;
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6366f1;
+}
+
+/* Code Block */
+.code-block {
+  background: #1e293b;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 1.5rem 0;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+}
+
+.code-header {
+  background: #0f172a;
+  padding: 0.75rem 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.red { background: #ef4444; }
+.yellow { background: #f59e0b; }
+.green { background: #22c55e; }
+
+pre {
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 0;
+}
+
+code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  color: #e2e8f0;
   line-height: 1.6;
 }
 
-pre {
-  background: #0f172a;
-  color: #e2e8f0;
-  padding: 1rem;
-  border-radius: 1rem;
-  overflow-x: auto;
-  margin-top: 1rem;
-}
-
+/* Resources */
 .resources {
-  border-radius: 1.5rem;
-  border: 1px solid rgba(59, 130, 246, 0.25);
-  padding: 1.75rem;
-  background: rgba(59, 130, 246, 0.04);
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-.resources ul {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.resources a {
-  color: #1d4ed8;
-  text-decoration: none;
+.resources h3 {
+  font-size: 1.25rem;
   font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 1.5rem;
 }
 
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.resource-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  color: #334155;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.resource-link:hover {
+  background: #fff;
+  border-color: #6366f1;
+  color: #6366f1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.arrow {
+  transition: transform 0.2s;
+}
+
+.resource-link:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* Dark Mode */
 @media (prefers-color-scheme: dark) {
-  .post {
+  .post-page {
     background: #020617;
     color: #e2e8f0;
   }
 
-  .section {
-    background: rgba(2, 6, 23, 0.8);
-    border-color: rgba(148, 163, 184, 0.2);
+  .bg-gradient {
+    background: linear-gradient(180deg, rgba(236, 72, 153, 0.05) 0%, rgba(2, 6, 23, 0) 100%);
   }
 
-  .section p,
-  .bullets {
-    color: inherit;
+  h1, h2, .resources h3 { color: #f8fafc; }
+  p, .bullets li, .summary { color: #cbd5e1; }
+
+  .resource-link {
+    background: rgba(30, 41, 59, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
   }
 
-  .resources {
-    background: rgba(59, 130, 246, 0.1);
+  .resource-link:hover {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: #6366f1;
+    color: #818cf8;
+  }
+  
+  .footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
   }
 }
 </style>

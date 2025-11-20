@@ -179,8 +179,8 @@ function setLocale(code: Locale) {
 <style scoped>
 :global(body) {
   margin: 0;
-  background: #0f172a;
-  color: #fff;
+  background: #e4e0ba; /* Match 3D background */
+  color: #1e293b; /* Dark Text */
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
@@ -198,7 +198,7 @@ function setLocale(code: Locale) {
   width: 100%;
   height: 100vh;
   z-index: 0;
-  pointer-events: all; /* Allow interaction with 3D scene */
+  pointer-events: all;
 }
 
 .content-overlay {
@@ -207,8 +207,7 @@ function setLocale(code: Locale) {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: rgba(15, 23, 42, 0.3); /* Slight overlay for better text contrast */
-  backdrop-filter: blur(0px); /* Start with no blur, maybe add on scroll? */
+  background: transparent; /* Let the beige show through */
 }
 
 .header {
@@ -220,27 +219,30 @@ function setLocale(code: Locale) {
 .locales {
   display: flex;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.5);
   padding: 0.25rem;
   border-radius: 999px;
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .locale-btn {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.7);
+  color: #64748b;
   padding: 0.5rem 1rem;
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .locale-btn.active {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: #fff;
+  color: #0f172a;
   font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .hero {
@@ -258,8 +260,12 @@ function setLocale(code: Locale) {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: #6366f1;
+  font-weight: 600;
   margin: 0;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
 }
 
 .hero-title {
@@ -267,15 +273,16 @@ function setLocale(code: Locale) {
   font-weight: 800;
   line-height: 1.1;
   margin: 0;
-  background: linear-gradient(to right, #fff, #a5b4fc);
+  color: #0f172a;
+  /* Optional: Subtle gradient or solid dark color */
+  background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(165, 180, 252, 0.3);
 }
 
 .hero-body {
   font-size: clamp(1.125rem, 3vw, 1.5rem);
-  color: rgba(255, 255, 255, 0.8);
+  color: #475569;
   max-width: 600px;
   line-height: 1.6;
   margin: 0;
@@ -296,24 +303,25 @@ function setLocale(code: Locale) {
 }
 
 .btn.primary {
-  background: #fff;
-  color: #0f172a;
+  background: #0f172a;
+  color: #fff;
+  box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3);
 }
 
 .btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 25px -5px rgba(15, 23, 42, 0.4);
 }
 
 .btn.secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.5);
+  color: #0f172a;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .btn.secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .features {
@@ -327,18 +335,19 @@ function setLocale(code: Locale) {
 }
 
 .feature-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 1.5rem;
   padding: 2rem;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .feature-card:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.7);
   transform: translateY(-5px);
-  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 .feature-icon {
@@ -350,18 +359,19 @@ function setLocale(code: Locale) {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: #6366f1;
+  font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
 .feature-card h3 {
   font-size: 1.5rem;
   margin: 0 0 1rem 0;
-  color: #fff;
+  color: #0f172a;
 }
 
 .feature-card p {
-  color: rgba(255, 255, 255, 0.7);
+  color: #475569;
   line-height: 1.6;
   margin: 0;
 }
@@ -369,8 +379,8 @@ function setLocale(code: Locale) {
 .footer {
   padding: 2rem;
   text-align: center;
-  color: rgba(255, 255, 255, 0.4);
+  color: #64748b;
   font-size: 0.875rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(15, 23, 42, 0.05);
 }
 </style>

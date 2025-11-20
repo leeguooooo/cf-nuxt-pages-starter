@@ -1,6 +1,6 @@
 {
   "name": "cf-nuxt-pages-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Cloudflare Pages + Nuxt 4 的全栈脚手架，预置 D1、Pinia、Nitro 配置，并支持多 Cloudflare 账号/项目一键部署",
   "type": "module",
   "bin": {

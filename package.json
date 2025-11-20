@@ -32,6 +32,7 @@
   },
   "homepage": "https://cf-nuxt-pages-kit-site.pages.dev/",
   "scripts": {
+    "build": "pnpm website:build",
     "dev": "pnpm website:dev",
     "create": "node create-project.mjs",
     "template:dev": "pnpm --filter cf-nuxt-pages-kit-app dev",

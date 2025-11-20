@@ -1,8 +1,36 @@
 {
   "name": "cf-nuxt-pages-kit",
   "version": "0.1.0",
-  "private": true,
+  "description": "Cloudflare Pages + Nuxt 4 的全栈脚手架，预置 D1、Pinia、Nitro 配置，并支持多 Cloudflare 账号/项目一键部署",
   "type": "module",
+  "bin": {
+    "create-cf-nuxt-pages": "./create-project.mjs"
+  },
+  "files": [
+    "create-project.mjs",
+    "template",
+    "README.md"
+  ],
+  "keywords": [
+    "nuxt",
+    "nuxt4",
+    "cloudflare",
+    "cloudflare-pages",
+    "d1",
+    "nitro",
+    "pinia",
+    "scaffold",
+    "starter",
+    "template",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leeguooooo/cf-nuxt-pages-starter.git"
+  },
+  "homepage": "https://cf-nuxt-pages-kit-site.pages.dev/",
   "scripts": {
     "dev": "pnpm website:dev",
     "create": "node create-project.mjs",

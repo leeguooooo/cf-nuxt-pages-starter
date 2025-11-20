@@ -1,0 +1,35 @@
+# 开发相关
+node_modules/
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+# 网站相关（不需要发布）
+website/
+
+# 构建产物
+**/dist/
+**/.output/
+**/.nuxt/
+**/.nitro/
+
+# 配置文件（开发用）
+.git/
+.gitignore
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 测试
+**/test/
+**/tests/
+**/*.test.*
+**/*.spec.*
+
+# 其他
+.DS_Store
+*.local
+

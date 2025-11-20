@@ -11,6 +11,23 @@ Cloudflare Pages + Nuxt 4 的全栈脚手架，预置 D1、Pinia、Nitro 配置�
 
 ## 快速开始
 
+### 使用 CLI 工具（推荐）
+
+```bash
+# 使用 npx（无需安装）
+npx cf-nuxt-pages-kit my-app
+
+# 或全局安装后使用
+npm install -g cf-nuxt-pages-kit
+create-cf-nuxt-pages my-app
+
+cd my-app
+pnpm install
+pnpm wrangler:config:test && pnpm dev
+```
+
+### 从源码使用
+
 ```bash
 # 复制模板到 ./my-admin
 node create-project.mjs my-admin

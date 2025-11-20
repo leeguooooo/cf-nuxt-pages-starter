@@ -10,7 +10,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "wrangler:config": "node scripts/use-pages-config.mjs",
-    "deploy": "pnpm wrangler:config && pnpm build && wrangler pages deploy .output/public --project-name cf-nuxt-pages-kit-site"
+    "deploy": "pnpm wrangler:config && pnpm build && wrangler pages deploy dist --project-name cf-nuxt-pages-kit-site"
   },
   "dependencies": {
     "@nuxt/ui": "^2.15.0",

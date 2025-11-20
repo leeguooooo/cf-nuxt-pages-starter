@@ -11,7 +11,7 @@ pnpm dev
 ## 部署
 ```bash
 pnpm build
-wrangler pages deploy .output/public --project-name=<your-pages-project>
+wrangler pages deploy dist --project-name=<your-pages-project>
 ```
 
 可以在 Cloudflare Pages 中同样使用 `wrangler.account-*.toml` 多账号方案，但官网通常只需要一个账号，因此示例仅提供 `wrangler.pages.toml`（单账号）。

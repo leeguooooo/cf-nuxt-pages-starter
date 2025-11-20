@@ -9,6 +9,7 @@
     "template:dev": "pnpm --filter cf-nuxt-pages-kit-app dev",
     "template:build": "pnpm --filter cf-nuxt-pages-kit-app build",
     "website:dev": "pnpm --filter cf-nuxt-pages-kit-site dev",
-    "website:build": "pnpm --filter cf-nuxt-pages-kit-site build"
+    "website:build": "pnpm --filter cf-nuxt-pages-kit-site build",
+    "deploy": "pnpm --filter cf-nuxt-pages-kit-site run deploy"
   }
 }
